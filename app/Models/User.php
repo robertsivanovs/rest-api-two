@@ -27,6 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'coin_balance',
+        'first_app_user_id'
     ];
 
     /**

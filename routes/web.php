@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\IndexController;
+use App\Http\Middleware\ValidateFirstAppToken;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,21 +17,24 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('User/Index');
     })->name('dashboard');
+});
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('User/Index');
+// })->name('dashboard');
+
+// Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
+
+
+Route::middleware([ValidateFirstAppToken::class])->group(function () {
+    Route::get('/api', [IndexController::class, 'index']);
+    Route::get('/', [IndexController::class, 'index']);
 });
