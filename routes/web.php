@@ -27,13 +27,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('User/Index');
-// })->name('dashboard');
-
-// Route::get('/dashboard', [IndexController::class, 'index'])->name('dashboard');
-
-
 Route::middleware([ValidateFirstAppToken::class])->group(function () {
     Route::get('/api', [IndexController::class, 'index']);
     Route::get('/', [IndexController::class, 'index']);

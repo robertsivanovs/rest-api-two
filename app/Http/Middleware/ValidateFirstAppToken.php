@@ -23,7 +23,7 @@ class ValidateFirstAppToken
             return Inertia::location(config('firstapp.home_url'));
         }
         // If token validation failed log the errorr and return the user to the first app
-        if (!ValidateTokenFirstAppTrait::validate($token, $request)) {
+        if (!ValidateTokenFirstAppTrait::validate($token, $request) ) {
             Log::error('Error in class ValidateFirstAppToken: Invalid token');
             return Inertia::location(config('firstapp.home_url'));
         }

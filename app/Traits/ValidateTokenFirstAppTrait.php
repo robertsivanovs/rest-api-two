@@ -26,6 +26,8 @@ trait ValidateTokenFirstAppTrait
                 ]);
                 
                 //var_dump($response->body());
+
+                //die();
                 
                $request->merge(['user' => $response->body('user')]);
 
