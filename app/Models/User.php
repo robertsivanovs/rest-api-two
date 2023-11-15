@@ -30,7 +30,8 @@ class User extends Authenticatable
         'password',
         'coin_balance',
         'first_app_user_id',
-        'last_login_at'
+        'last_login_at',
+        'last_coin_payout_at'
     ];
 
     /**
@@ -62,9 +63,4 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-    public function coinTransactions()
-    {
-        return $this->hasMany(UserTransaction::class);
-    }
 }

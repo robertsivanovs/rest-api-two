@@ -23,17 +23,4 @@ class UserTransaction extends Model
         'amount',
         'first_app_id'
     ];
-
-    /**
-     * user
-     * 
-     * user_id in the user_transactions table
-     * represents the users ID
-     *
-     * @return void
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

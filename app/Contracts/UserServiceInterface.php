@@ -8,7 +8,7 @@ interface UserServiceInterface
      * createOrUpdateUser
      *
      * @param  array $userData
-     * @return bool
+     * @return User
      */
-    public function createOrUpdateUser(array $userData): bool;
+    public function createOrUpdateUser(array $userData): \App\Models\User;
 }

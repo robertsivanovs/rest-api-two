@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserDataRequest;
 use App\Contracts\UserServiceInterface;
+use App\Contracts\TransactionServiceInterface;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,8 @@ class IndexController extends Controller
      * @return void
      */
     public function __construct(
-        protected UserServiceInterface $userService
+        protected UserServiceInterface $userService,
+        protected TransactionServiceInterface $transactionService
     ) {}
     
     /**
@@ -33,18 +35,35 @@ class IndexController extends Controller
     public function index(UserDataRequest $request)
     {
         $userData = json_decode($request->validated('user'), true);
-
-        // var_dump($userData);
-
-        // die();
+        $transactionData = [];
 
         // Try to update the current user or create a new user
         try {
-            $this->userService->createOrUpdateUser($userData);
+            $user = $this->userService->createOrUpdateUser($userData);
         } catch (\Exception $e) {
-            Log::error("Error in IndexController::index createOrUpdateUser failed");
+            Log::error("Error in IndexController::index createOrUpdateUser failed:" . $e->getMessage());
         }
 
-        return Inertia::render('User/Index');        
+        // Try to update user coin transactions
+        try {
+            $userHasTransactions = $this->transactionService->createOrUpdateTransaction($userData);
+        } catch (\Exception $e) {
+            Log::error("Error in IndexController::index createOrUpdateTransaction failed:" . $e->getMessage());
+        }
+
+        if ($userHasTransactions) {
+            // Extract the user transaction data
+            $transactionData = $userData['valid']['transaction_history'];
+        }
+
+        if ($user->exists) {
+            Auth::login($user);
+        }
+
+        return Inertia::render('User/Index', [
+            'transactionData' => $transactionData
+            ]
+        );
+        
     }
 }

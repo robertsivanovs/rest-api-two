@@ -13,8 +13,8 @@ return new class extends Migration
     {
     	Schema::create('user_transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer('first_app_id');
-            $table->foreignId('user_id')->constrained();
+            $table->integer('first_app_id');;
+            $table->integer('user_id');
             $table->integer('amount');
             $table->timestamps();
         });

@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('first_app_user_id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('coin_balance');
+            $table->string('coin_balance')->nullable();
             $table->timestamp('last_login_at')->nullable();
+            $table->timestamp('last_coin_payout_at')->nullable();
             $table->timestamps();
         });
     }
