@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\UserTransaction;
 
 class User extends Authenticatable
 {
@@ -27,6 +28,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'coin_balance',
+        'first_app_user_id',
+        'last_login_at',
+        'last_coin_payout_at'
     ];
 
     /**
